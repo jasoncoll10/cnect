@@ -1,22 +1,93 @@
-export default function CardPage({ id }) {
+import { useState } from 'react'
+
+export default function CardPage({ id, claimed }) {
+  const [step, setStep] = useState(0)
+  const [form, setForm] = useState({ email: '', password: '', name: '', title: '', bio: '' })
+
+  const mono = "'Courier New', monospace"
+
+  if (claimed) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: mono, color: '#f0eef8', padding: 24 }}>
+        <h1 style={{ fontFamily: mono, fontSize: 48, fontWeight: 300, marginBottom: 8 }}>Card Active 🖤</h1>
+        <p style={{ color: 'rgba(240,238,248,0.5)' }}>This card belongs to someone already.</p>
+      </div>
+    )
+  }
+
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#070709",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      fontFamily: "sans-serif",
-      color: "#f0eef8"
-    }}>
-      <h1 style={{ fontSize: 36, marginBottom: 16 }}>✦</h1>
-      <p style={{ fontSize: 20, marginBottom: 8 }}>Card: {id}</p>
-      <p style={{ color: "rgba(240,238,248,0.5)" }}>This card is ready 🖤</p>
+    <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: mono, color: '#f0eef8', padding: 24 }}>
+      
+      {step === 0 && (
+        <div style={{ textAlign: 'center', maxWidth: 380 }}>
+          <div style={{ fontSize: 64, marginBottom: 24 }}>✦</div>
+          <h1 style={{ fontFamily: mono, fontSize: 40, fontWeight: 300, marginBottom: 12 }}>This card is yours.</h1>
+          <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 15, lineHeight: 1.7, marginBottom: 40, fontFamily: mono }}>
+            Set up your Cnect profile and start sharing your links with a single tap.
+          </p>
+          <button onClick={() => setStep(1)} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '16px 40px', fontSize: 15, fontWeight: 700, cursor: 'pointer', width: '100%', fontFamily: mono }}>
+            Activate My Card →
+          </button>
+          <p style={{ marginTop: 16, fontSize: 11, color: 'rgba(240,238,248,0.3)', fontFamily: mono }}>Card ID: {id}</p>
+        </div>
+      )}
+
+      {step === 1 && (
+        <div style={{ width: '100%', maxWidth: 380 }}>
+          <h2 style={{ fontFamily: mono, fontSize: 32, fontWeight: 300, marginBottom: 8 }}>Create account</h2>
+          <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 14, marginBottom: 28, fontFamily: mono }}>You'll use this to log in and update your profile.</p>
+          {[
+            { label: 'Email', key: 'email', type: 'email', placeholder: 'you@example.com' },
+            { label: 'Password', key: 'password', type: 'password', placeholder: 'Create a password' },
+          ].map(f => (
+            <div key={f.key} style={{ marginBottom: 16 }}>
+              <label style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,238,248,0.45)', display: 'block', marginBottom: 8, fontFamily: mono }}>{f.label}</label>
+              <input type={f.type} placeholder={f.placeholder} value={form[f.key]} onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
+                style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: '#f0eef8', fontSize: 14, boxSizing: 'border-box', fontFamily: mono }} />
+            </div>
+          ))}
+          <button onClick={() => setStep(2)} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: 8, fontFamily: mono }}>
+            Continue →
+          </button>
+          <button onClick={() => setStep(0)} style={{ background: 'none', border: 'none', color: 'rgba(240,238,248,0.3)', cursor: 'pointer', width: '100%', marginTop: 12, fontSize: 13, fontFamily: mono }}>← Back</button>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div style={{ width: '100%', maxWidth: 380 }}>
+          <h2 style={{ fontFamily: mono, fontSize: 32, fontWeight: 300, marginBottom: 8 }}>Your profile</h2>
+          <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 14, marginBottom: 28, fontFamily: mono }}>This is what people see when they tap your card.</p>
+          {[
+            { label: 'Full Name', key: 'name', placeholder: 'Your name' },
+            { label: 'Title / Role', key: 'title', placeholder: 'e.g. Designer, Founder' },
+            { label: 'Bio', key: 'bio', placeholder: 'A short line about you...' },
+          ].map(f => (
+            <div key={f.key} style={{ marginBottom: 16 }}>
+              <label style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,238,248,0.45)', display: 'block', marginBottom: 8, fontFamily: mono }}>{f.label}</label>
+              <input placeholder={f.placeholder} value={form[f.key]} onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
+                style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: '#f0eef8', fontSize: 14, boxSizing: 'border-box', fontFamily: mono }} />
+            </div>
+          ))}
+          <button onClick={() => setStep(3)} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: 8, fontFamily: mono }}>
+            Finish Setup →
+          </button>
+          <button onClick={() => setStep(2)} style={{ background: 'none', border: 'none', color: 'rgba(240,238,248,0.3)', cursor: 'pointer', width: '100%', marginTop: 12, fontSize: 13, fontFamily: mono }}>← Back</button>
+        </div>
+      )}
+
+      {step === 3 && (
+        <div style={{ textAlign: 'center', maxWidth: 380 }}>
+          <div style={{ fontSize: 64, marginBottom: 24 }}>🖤</div>
+          <h1 style={{ fontFamily: mono, fontSize: 40, fontWeight: 300, marginBottom: 12 }}>You're live!</h1>
+          <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 15, lineHeight: 1.7, marginBottom: 8, fontFamily: mono }}>Your Cnect profile is active at</p>
+          <p style={{ color: '#a78bfa', fontFamily: mono, fontSize: 14, marginBottom: 32 }}>cnect.me/u/{id}</p>
+          <p style={{ color: 'rgba(240,238,248,0.4)', fontSize: 13, lineHeight: 1.7, fontFamily: mono }}>Tap your card anytime to share your profile. Log in to update your links.</p>
+        </div>
+      )}
     </div>
   )
 }
 
 export async function getServerSideProps({ params }) {
-  return { props: { id: params.id } }
+  return { props: { id: params.id, claimed: false } }
 }
