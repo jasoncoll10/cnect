@@ -6,8 +6,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 )
 
-export default function CardPage({ id, claimed }) {
-  const [step, setStep] = useState(0)
+export default function CardPage({ id, claimed, profile, links }) {  const [step, setStep] = useState(0)
   const [form, setForm] = useState({ email: '', password: '', name: '', title: '', bio: '' })
 
   const mono = "'Courier New', monospace"
@@ -40,11 +39,30 @@ const handleActivate = async () => {
     setStep(3)
   }
   
-  if (claimed) {
+if (claimed && profile) {
     return (
-      <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: mono, color: '#f0eef8', padding: 24 }}>
-        <h1 style={{ fontFamily: mono, fontSize: 48, fontWeight: 300, marginBottom: 8 }}>Card Active 🖤</h1>
-        <p style={{ color: 'rgba(240,238,248,0.5)' }}>This card belongs to someone already.</p>
+      <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '60px 20px 40px', fontFamily: mono, color: '#f0eef8' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 36 }}>
+          <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg,#a78bfa,#c084fc)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 700, color: '#fff', marginBottom: 16, boxShadow: '0 0 0 3px rgba(167,139,250,0.3), 0 8px 32px rgba(167,139,250,0.3)' }}>
+            {profile.name ? profile.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase() : '??'}
+          </div>
+          <h1 style={{ fontFamily: mono, fontSize: 26, fontWeight: 600, margin: 0 }}>{profile.name}</h1>
+          {profile.title && <p style={{ fontSize: 11, color: '#a78bfa', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', margin: '6px 0 0' }}>{profile.title}</p>}
+          {profile.bio && <p style={{ fontSize: 14, color: 'rgba(240,238,248,0.5)', margin: '10px 0 0', maxWidth: 280, textAlign: 'center', lineHeight: 1.65 }}>{profile.bio}</p>}
+        </div>
+        <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {links.filter(l => l.active).map(link => (
+            <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '16px 20px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, textDecoration: 'none', color: '#f0eef8', fontFamily: mono }}>
+              <span style={{ fontSize: 22 }}>{link.icon}</span>
+              <span style={{ fontSize: 15, fontWeight: 600, flex: 1 }}>{link.label}</span>
+              <span style={{ fontSize: 12, color: 'rgba(240,238,248,0.5)' }}>→</span>
+            </a>
+          ))}
+          {links.length === 0 && (
+            <p style={{ textAlign: 'center', color: 'rgba(240,238,248,0.3)', fontSize: 14, marginTop: 20 }}>No links added yet.</p>
+          )}
+        </div>
+        <p style={{ marginTop: 48, fontSize: 11, color: 'rgba(240,238,248,0.3)', letterSpacing: '0.08em' }}>Powered by <strong style={{ color: '#a78bfa' }}>Cnect</strong></p>
       </div>
     )
   }
