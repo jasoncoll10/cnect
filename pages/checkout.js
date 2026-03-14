@@ -65,7 +65,7 @@ export default function Checkout() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <div style={{ width: 20, height: 20, borderRadius: '50%', border: `2px solid ${selected === plan.id ? gold : 'rgba(255,255,255,0.2)'}`, background: selected === plan.id ? gold : 'transparent', transition: 'all 0.2s' }} />
               <span style={{ fontSize: 16, fontWeight: 700 }}>{plan.name}</span>
-              <span style={{ marginLeft: 'auto', fontSize: 24, fontWeight: 300, color: gold }}>${plan.price}</span>
+              <span style={{ marginLeft: 'auto', marginRight: 80, fontSize: 24, fontWeight: 300, color: gold }}>${plan.price}</span>
             </div>
             <p style={{ fontSize: 11, color: 'rgba(240,238,248,0.35)', marginBottom: 12, letterSpacing: '0.06em' }}>{plan.note}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
