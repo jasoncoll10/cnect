@@ -201,6 +201,7 @@ if (!user) {
               { label: 'Display Name', key: 'name', placeholder: 'Your name' },
               { label: 'Title / Role', key: 'title', placeholder: 'e.g. Designer, Founder' },
               { label: 'Bio', key: 'bio', placeholder: 'A short line about you...' },
+              { label: 'Profile Photo URL', key: 'avatar', placeholder: 'https://...' },
             ].map(f => (
               <div key={f.key}>
                 <label style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,238,248,0.45)', display: 'block', marginBottom: 8 }}>{f.label}</label>
