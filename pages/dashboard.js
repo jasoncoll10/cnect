@@ -34,12 +34,13 @@ export default function Dashboard() {
     })
   }, [])
 
-const loadData = async (userId) => {
-    const { data: profileData } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+const { data: cardData, error: cardError } = await supabase
+  .from('cards')
+  .select('*')
+  .eq('owner_id', userId)
+
+console.log('CARD DATA:', cardData, 'ERROR:', cardError)
+setHasCard(cardData && cardData.length > 0)
 
     const { data: cardData } = await supabase
       .from('cards')
