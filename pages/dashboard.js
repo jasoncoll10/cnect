@@ -89,7 +89,6 @@ const loadData = async (userId) => {
     if (error) { alert(error.message); return }
     alert('Profile saved! 🖤')
   }
-  }
 
   const uploadAvatar = async (e) => {
     const file = e.target.files[0]
