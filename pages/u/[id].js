@@ -123,5 +123,28 @@ const handleActivate = async () => {
 }
 
 export async function getServerSideProps({ params }) {
-  return { props: { id: params.id, claimed: false } }
+  const { createClient } = require('@supabase/supabase-js')
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
+
+  const { data: card } = await supabase
+    .from('cards')
+    .select('*, profiles(*), links(*)')
+    .eq('id', params.id)
+    .single()
+
+  if (!card || !card.owner_id) {
+    return { props: { id: params.id, claimed: false, profile: null, links: [] } }
+  }
+
+  return { 
+    props: { 
+      id: params.id, 
+      claimed: true,
+      profile: card.profiles,
+      links: card.links || []
+    } 
+  }
 }
