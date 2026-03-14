@@ -25,7 +25,7 @@ export default function Home() {
         <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
           <a href="#how" className="nav-link" style={{ fontSize: 13, color: 'rgba(240,238,248,0.5)', letterSpacing: '0.08em' }}>How it works</a>
           <a href="#pricing" className="nav-link" style={{ fontSize: 13, color: 'rgba(240,238,248,0.5)', letterSpacing: '0.08em' }}>Pricing</a>
-          <a href="/dashboard" className="btn-ghost" style={{ fontSize: 13, color: gold, letterSpacing: '0.08em', border: `1px solid rgba(212,175,114,0.3)`, padding: '8px 20px', borderRadius: 50 }}>Log in</a>
+          <a href="/dashboard" className="btn-ghost" style={{ fontSize: 13, color: gold, letterSpacing: '0.08em', border: `1px solid rgba(212,175,114,0.3)`, padding: '8px 20px', borderRadius: 50 }}>Sign up / Log in</a>
         </div>
       </nav>
 
