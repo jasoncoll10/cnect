@@ -34,19 +34,23 @@ export default function Dashboard() {
     })
   }, [])
 
-const { data: cardData, error: cardError } = await supabase
-  .from('cards')
-  .select('*')
-  .eq('owner_id', userId)
+const loadData = async (userId) => {
+    const { data: profilesData } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
 
-console.log('CARD DATA:', cardData, 'ERROR:', cardError)
-setHasCard(cardData && cardData.length > 0)
+    let profileData = profilesData && profilesData.length > 0 ? profilesData[0] : null
+
+    if (!profileData) {
+      await supabase.from('profiles').insert({ id: userId, name: '' })
+      profileData = { id: userId, name: '', title: '', bio: '', avatar: '' }
+    }
 
     const { data: cardData } = await supabase
       .from('cards')
       .select('*')
       .eq('owner_id', userId)
-      .single()
 
     const { data: linksData } = await supabase
       .from('links')
@@ -56,12 +60,11 @@ setHasCard(cardData && cardData.length > 0)
 
     setProfile(profileData)
     setLinks(linksData || [])
-    setHasCard(!!cardData)
+    setHasCard(cardData && cardData.length > 0)
     setLoading(false)
   }
 
   const login = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) { alert(error.message); return }
     setUser(data.user)
     loadData(data.user.id)
