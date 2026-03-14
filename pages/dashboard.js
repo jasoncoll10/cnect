@@ -7,6 +7,7 @@ const supabase = createClient(
 )
 
 const mono = "'Courier New', monospace"
+const gold = '#d4af72'
 
 export default function Dashboard() {
   const [user, setUser] = useState(null)
@@ -17,6 +18,7 @@ export default function Dashboard() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [tab, setTab] = useState('links')
+  const [hasCard, setHasCard] = useState(false)
 
   const ICONS = ['🔗','📸','🌐','🎵','✉️','💼','🎬','🛒','📱','🎨','📝','🚀','⭐','🎯','💡','🎮']
 
@@ -31,13 +33,19 @@ export default function Dashboard() {
     })
   }, [])
 
-  const loadData = async (userId) => {
+const loadData = async (userId) => {
     const { data: profileData } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', userId)
       .single()
-    
+
+    const { data: cardData } = await supabase
+      .from('cards')
+      .select('*')
+      .eq('owner_id', userId)
+      .single()
+
     const { data: linksData } = await supabase
       .from('links')
       .select('*')
@@ -46,6 +54,7 @@ export default function Dashboard() {
 
     setProfile(profileData)
     setLinks(linksData || [])
+    setHasCard(!!cardData)
     setLoading(false)
   }
 
@@ -132,6 +141,19 @@ export default function Dashboard() {
           <button onClick={logout} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(240,238,248,0.5)', borderRadius: 50, padding: '6px 16px', fontSize: 12, cursor: 'pointer', fontFamily: mono }}>Log out</button>
         </div>
       </div>
+
+        {/* No card banner */}
+{!hasCard && (
+  <div style={{ margin: '24px 24px 0', background: 'rgba(212,175,114,0.08)', border: '1px solid rgba(212,175,114,0.2)', borderRadius: 14, padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+    <div>
+      <p style={{ fontSize: 14, fontWeight: 700, color: gold, marginBottom: 4 }}>✦ You don't have a card yet</p>
+      <p style={{ fontSize: 13, color: 'rgba(240,238,248,0.5)' }}>Get your Cnect card to start sharing your links with a single tap.</p>
+    </div>
+    <a href='/#pricing' style={{ background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', border: 'none', borderRadius: 50, padding: '10px 24px', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: mono, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+      Get a Card →
+    </a>
+  </div>
+)}
 
       <div style={{ padding: '24px', maxWidth: 500, margin: '0 auto' }}>
 
