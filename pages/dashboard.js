@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [tab, setTab] = useState('links')
+  const [uploading, setUploading] = useState(false)
   const [hasCard, setHasCard] = useState(false)
 
   const ICONS = ['🔗','📸','🌐','🎵','✉️','💼','🎬','🛒','📱','🎨','📝','🚀','⭐','🎯','💡','🎮']
@@ -79,6 +80,23 @@ const loadData = async (userId) => {
       bio: profile.bio,
     }).eq('id', user.id)
     alert('Profile saved! 🖤')
+  }
+
+  const uploadAvatar = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    setUploading(true)
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${user.id}.${fileExt}`
+    const { error } = await supabase.storage
+      .from('avatars')
+      .upload(fileName, file, { upsert: true })
+    if (error) { alert(error.message); setUploading(false); return }
+    const { data } = supabase.storage.from('avatars').getPublicUrl(fileName)
+    await supabase.from('profiles').update({ avatar: data.publicUrl }).eq('id', user.id)
+    setProfile(p => ({ ...p, avatar: data.publicUrl }))
+    setUploading(false)
+    alert('Photo updated! 🖤')
   }
 
   const addLink = async () => {
@@ -195,27 +213,44 @@ if (!user) {
         )}
 
         {/* PROFILE TAB */}
-        {tab === 'profile' && profile && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              { label: 'Display Name', key: 'name', placeholder: 'Your name' },
-              { label: 'Title / Role', key: 'title', placeholder: 'e.g. Designer, Founder' },
-              { label: 'Bio', key: 'bio', placeholder: 'A short line about you...' },
-              { label: 'Profile Photo URL', key: 'avatar', placeholder: 'https://...' },
-            ].map(f => (
-              <div key={f.key}>
-                <label style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,238,248,0.45)', display: 'block', marginBottom: 8 }}>{f.label}</label>
-                <input value={profile[f.key] || ''} onChange={e => setProfile(p => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} style={inp} />
-              </div>
-            ))}
-            <button onClick={saveProfile} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '14px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: mono, marginTop: 8 }}>
-              Save Profile 🖤
-            </button>
-            <a href={`/u/card003`} target="_blank" rel="noopener noreferrer" style={{ textAlign: 'center', fontSize: 13, color: '#a78bfa', marginTop: 4 }}>
-              View my profile →
-            </a>
+{tab === 'profile' && profile && (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    
+    {/* Avatar upload */}
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, padding: '20px 0' }}>
+      <div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', border: `2px solid rgba(212,175,114,0.3)`, boxShadow: '0 0 20px rgba(212,175,114,0.2)' }}>
+        {profile.avatar ? (
+          <img src={profile.avatar} alt="avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg,#1a1a0f,#2a2510)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 700, color: gold }}>
+            {profile.name ? profile.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase() : '??'}
           </div>
         )}
+      </div>
+      <label style={{ background: `rgba(212,175,114,0.1)`, border: `1px solid rgba(212,175,114,0.2)`, color: gold, borderRadius: 50, padding: '8px 20px', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: mono, letterSpacing: '0.06em' }}>
+        {uploading ? 'Uploading...' : '📷 Upload Photo'}
+        <input type="file" accept="image/*" onChange={uploadAvatar} style={{ display: 'none' }} disabled={uploading} />
+      </label>
+    </div>
+
+    {[
+      { label: 'Display Name', key: 'name', placeholder: 'Your name' },
+      { label: 'Title / Role', key: 'title', placeholder: 'e.g. Designer, Founder' },
+      { label: 'Bio', key: 'bio', placeholder: 'A short line about you...' },
+    ].map(f => (
+      <div key={f.key}>
+        <label style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,238,248,0.45)', display: 'block', marginBottom: 8, fontFamily: mono }}>{f.label}</label>
+        <input value={profile[f.key] || ''} onChange={e => setProfile(p => ({ ...p, [f.key]: e.target.value }))} placeholder={f.placeholder} style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(212,175,114,0.15)', background: 'rgba(255,255,255,0.04)', color: '#f0eef8', fontSize: 14, boxSizing: 'border-box', fontFamily: mono, outline: 'none' }} />
+      </div>
+    ))}
+    <button onClick={saveProfile} style={{ background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', border: 'none', borderRadius: 50, padding: '14px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: mono, marginTop: 8 }}>
+      Save Profile 🖤
+    </button>
+    <a href={`/u/card001`} target="_blank" rel="noopener noreferrer" style={{ textAlign: 'center', fontSize: 13, color: gold, marginTop: 4 }}>
+      View my profile →
+    </a>
+  </div>
+)}
       </div>
     </div>
   )
