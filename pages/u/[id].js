@@ -172,13 +172,16 @@ if (claimed && profile) {
 
           {/* Save Contact Button */}
           {(profile.phone || profile.contact_email) && (
-            <a href={`data:text/vcard;charset=utf-8,BEGIN:VCARD%0AVERSION:3.0%0AFN:${encodeURIComponent(profile.name || '')}%0ATITLE:${encodeURIComponent(profile.title || '')}%0ATEL:${encodeURIComponent(profile.phone || '')}%0AEMAIL:${encodeURIComponent(profile.contact_email || '')}%0AURL:https://cnect.me/u/${encodeURIComponent(profile.username || '')}%0AEND:VCARD`}
-              download={`${profile.name || 'contact'}.vcf`}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, width: '100%', maxWidth: 400, background: 'linear-gradient(135deg,rgba(212,175,114,0.15),rgba(212,175,114,0.05))', border: '1px solid rgba(212,175,114,0.3)', color: '#d4af72', borderRadius: 16, padding: '16px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', fontFamily: mono, marginBottom: 12 }}>
-              <span style={{ fontSize: 20 }}>👤</span>
-              Save Contact
-              <span style={{ fontSize: 12, opacity: 0.6 }}>→</span>
-            </a>
+            <>
+              <div style={{ width: '100%', height: 1, background: 'rgba(212,175,114,0.08)', margin: '8px 0 16px' }} />
+              <a href={`data:text/vcard;charset=utf-8,BEGIN:VCARD%0AVERSION:3.0%0AFN:${encodeURIComponent(profile.name || '')}%0ATITLE:${encodeURIComponent(profile.title || '')}%0ATEL:${encodeURIComponent(profile.phone || '')}%0AEMAIL:${encodeURIComponent(profile.contact_email || '')}%0AURL:https://cnect.me/u/${encodeURIComponent(profile.username || '')}%0AEND:VCARD`}
+                download={`${profile.name || 'contact'}.vcf`}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, width: '100%', maxWidth: 400, background: 'linear-gradient(135deg,rgba(212,175,114,0.15),rgba(212,175,114,0.05))', border: '1px solid rgba(212,175,114,0.3)', color: '#d4af72', borderRadius: 16, padding: '16px 20px', fontSize: 14, fontWeight: 700, textDecoration: 'none', fontFamily: mono, marginBottom: 12 }}>
+                <span style={{ fontSize: 20 }}>👤</span>
+                Save Contact
+                <span style={{ fontSize: 12, opacity: 0.6 }}>→</span>
+              </a>
+            </>
           )}
 
           {/* Footer */}
