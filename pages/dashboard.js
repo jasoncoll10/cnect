@@ -253,7 +253,9 @@ if (!user) {
     <button onClick={saveProfile} style={{ background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', border: 'none', borderRadius: 50, padding: '14px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: mono, marginTop: 8 }}>
       Save Profile 🖤
     </button>
-    <a href={`/u/${profile.username || 'card001'}`} ...>View my profile →</a>
+    <a href={`/u/${profile.username || 'card001'}`} target="_blank" rel="noopener noreferrer" style={{ textAlign: 'center', fontSize: 13, color: gold, marginTop: 4 }}>
+  View my profile →
+</a>
   </div>
 )}
       </div>
