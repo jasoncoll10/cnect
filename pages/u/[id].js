@@ -162,26 +162,44 @@ if (claimed && profile) {
         </div>
       )}
 
-      {step === 1 && (
-        <div style={{ width: '100%', maxWidth: 380 }}>
-          <h2 style={{ fontFamily: mono, fontSize: 32, fontWeight: 300, marginBottom: 8 }}>Create account</h2>
-          <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 14, marginBottom: 28, fontFamily: mono }}>You'll use this to log in and update your profile.</p>
-          {[
-            { label: 'Email', key: 'email', type: 'email', placeholder: 'you@example.com' },
-            { label: 'Password', key: 'password', type: 'password', placeholder: 'Create a password' },
-          ].map(f => (
-            <div key={f.key} style={{ marginBottom: 16 }}>
-              <label style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,238,248,0.45)', display: 'block', marginBottom: 8, fontFamily: mono }}>{f.label}</label>
-              <input type={f.type} placeholder={f.placeholder} value={form[f.key]} onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
-                style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: '#f0eef8', fontSize: 14, boxSizing: 'border-box', fontFamily: mono }} />
-            </div>
-          ))}
-          <button onClick={() => setStep(2)} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: 8, fontFamily: mono }}>
-            Continue →
-          </button>
-          <button onClick={() => setStep(0)} style={{ background: 'none', border: 'none', color: 'rgba(240,238,248,0.3)', cursor: 'pointer', width: '100%', marginTop: 12, fontSize: 13, fontFamily: mono }}>← Back</button>
-        </div>
-      )}
+{step === 1 && (
+  <div style={{ width: '100%', maxWidth: 380 }}>
+    <h2 style={{ fontFamily: mono, fontSize: 32, fontWeight: 300, marginBottom: 8 }}>Create account</h2>
+    <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 14, marginBottom: 28, fontFamily: mono }}>You'll use this to log in and update your profile.</p>
+    
+    {/* Google button */}
+    <button onClick={async () => {
+      const { createClient } = await import('@supabase/supabase-js')
+      const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+      await sb.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: `https://cnect.me/u/${id}` }
+      })
+    }} style={{ width: '100%', background: '#fff', color: '#070709', border: 'none', borderRadius: 50, padding: '14px', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: mono, marginBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+      <span style={{ fontSize: 18 }}>G</span> Continue with Google
+    </button>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+      <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
+      <span style={{ fontSize: 11, color: 'rgba(240,238,248,0.3)', letterSpacing: '0.08em', fontFamily: mono }}>OR</span>
+      <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
+    </div>
+
+    {[
+      { label: 'Email', key: 'email', type: 'email', placeholder: 'you@example.com' },
+      { label: 'Password', key: 'password', type: 'password', placeholder: 'Create a password' },
+    ].map(f => (
+      <div key={f.key} style={{ marginBottom: 16 }}>
+        <label style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,238,248,0.45)', display: 'block', marginBottom: 8, fontFamily: mono }}>{f.label}</label>
+        <input type={f.type} placeholder={f.placeholder} value={form[f.key]} onChange={e => setForm(p => ({ ...p, [f.key]: e.target.value }))}
+          style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: '#f0eef8', fontSize: 14, boxSizing: 'border-box', fontFamily: mono }} />
+      </div>
+    ))}
+    <button onClick={() => setStep(2)} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: 8, fontFamily: mono }}>
+      Continue →
+    </button>
+    <button onClick={() => setStep(0)} style={{ background: 'none', border: 'none', color: 'rgba(240,238,248,0.3)', cursor: 'pointer', width: '100%', marginTop: 12, fontSize: 13, fontFamily: mono }}>← Back</button>
+  </div>
+)}
 
       {step === 2 && (
         <div style={{ width: '100%', maxWidth: 380 }}>
