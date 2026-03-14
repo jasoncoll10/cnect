@@ -149,7 +149,7 @@ export async function getServerSideProps({ params }) {
 
   const { data: card } = await supabase
     .from('cards')
-    .select('*, profiles(*), links(*)')
+    .select('*')
     .eq('id', params.id)
     .single()
 
@@ -157,12 +157,23 @@ export async function getServerSideProps({ params }) {
     return { props: { id: params.id, claimed: false, profile: null, links: [] } }
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', card.owner_id)
+    .single()
+
+  const { data: links } = await supabase
+    .from('links')
+    .select('*')
+    .eq('user_id', card.owner_id)
+
   return { 
     props: { 
       id: params.id, 
       claimed: true,
-      profile: card.profiles,
-      links: card.links || []
+      profile: profile || null,
+      links: links || []
     } 
   }
 }
