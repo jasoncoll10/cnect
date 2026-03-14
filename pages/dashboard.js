@@ -113,22 +113,16 @@ const loadData = async (userId) => {
     </div>
   )
 
-  if (!user) return (
-    <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: mono, color: '#f0eef8', padding: 24 }}>
-      <div style={{ textAlign: 'center', marginBottom: 40 }}>
-        <div style={{ fontSize: 40, marginBottom: 16 }}>✦</div>
-        <h1 style={{ fontFamily: mono, fontSize: 32, fontWeight: 300, marginBottom: 8 }}>Welcome back</h1>
-        <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 14 }}>Log in to manage your Cnect profile</p>
-      </div>
-      <div style={{ width: '100%', maxWidth: 380, display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} style={inp} />
-        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} style={inp} />
-        <button onClick={login} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '14px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: mono, marginTop: 8 }}>
-          Log In →
-        </button>
-      </div>
+if (!user) {
+  if (typeof window !== 'undefined') {
+    window.location.href = '/signup'
+  }
+  return (
+    <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: mono, color: '#f0eef8' }}>
+      Redirecting...
     </div>
   )
+}
 
   return (
     <div style={{ minHeight: '100vh', background: '#070709', fontFamily: mono, color: '#f0eef8' }}>
