@@ -12,10 +12,15 @@ export default function CardPage({ id, claimed, profile, links }) {  const [step
   const mono = "'Courier New', monospace"
 
 useEffect(() => {
-    if (claimed && profile) {
-      supabase.rpc('increment_taps', { user_id: profile.id })
+    const countTap = async () => {
+      if (claimed && profile) {
+        const { error } = await supabase.rpc('increment_taps', { user_id: profile.id })
+        if (error) console.log('TAP ERROR:', error)
+        else console.log('TAP COUNTED!')
+      }
     }
-  }, [claimed, profile])
+    countTap()
+  }, [])
                                                                    
 
 useEffect(() => {
