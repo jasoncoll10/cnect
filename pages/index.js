@@ -143,7 +143,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <a href="/checkout" style={{ display: 'block', textAlign: 'center', background: p.featured ? `linear-gradient(135deg,${gold},#c9a55a)` : 'transparent', color: p.featured ? '#070709' : 'rgba(240,238,248,0.5)', border: p.featured ? 'none' : '1px solid rgba(255,255,255,0.1)', borderRadius: 50, padding: '14px', fontSize: 14, fontWeight: 700, fontFamily: mono }}>
+              <a href="cnect.me/checkout" style={{ display: 'block', textAlign: 'center', background: p.featured ? `linear-gradient(135deg,${gold},#c9a55a)` : 'transparent', color: p.featured ? '#070709' : 'rgba(240,238,248,0.5)', border: p.featured ? 'none' : '1px solid rgba(255,255,255,0.1)', borderRadius: 50, padding: '14px', fontSize: 14, fontWeight: 700, fontFamily: mono }}>
                 Order Now →
               </a>
             </div>
@@ -159,7 +159,7 @@ export default function Home() {
           <span style={{ color: 'transparent', WebkitTextStroke: `1px rgba(212,175,114,0.7)` }}>impression?</span>
         </h2>
         <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 15, marginBottom: 40 }}>Join the people already using Cnect.</p>
-        <a href="/checkout" style={{ display: 'inline-block', background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', borderRadius: 50, padding: '18px 48px', fontSize: 15, fontWeight: 700, letterSpacing: '0.05em', boxShadow: `0 0 40px ${goldGlow}`, fontFamily: mono }}>
+        <a href="cnect.me/checkout" style={{ display: 'inline-block', background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', borderRadius: 50, padding: '18px 48px', fontSize: 15, fontWeight: 700, letterSpacing: '0.05em', boxShadow: `0 0 40px ${goldGlow}`, fontFamily: mono }}>
           Get Your Cnect Card 🖤
         </a>
       </div>
