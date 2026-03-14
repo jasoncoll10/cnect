@@ -12,6 +12,13 @@ export default function CardPage({ id, claimed, profile, links }) {  const [step
   const mono = "'Courier New', monospace"
 
 useEffect(() => {
+    if (claimed && profile) {
+      supabase.rpc('increment_taps', { user_id: profile.id })
+    }
+  }, [claimed, profile])
+                                                                   
+
+useEffect(() => {
     const handleGoogleReturn = async () => {
       const { data: { session } } = await supabase.auth.getSession()
       if (session && !claimed) {
@@ -150,9 +157,9 @@ if (claimed && profile) {
             <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 6, letterSpacing: '-0.3px', background: 'linear-gradient(135deg,#f0eef8,#d4af72)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               {profile.name}
             </h1>
-            {profile.title && (
-              <p style={{ fontSize: 11, color: '#d4af72', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>
-                {profile.title}
+            {profile.taps > 0 && (
+              <p style={{ fontSize: 11, color: 'rgba(212,175,114,0.4)', letterSpacing: '0.12em', marginTop: 4 }}>
+                ✦ {profile.taps} {profile.taps === 1 ? 'tap' : 'taps'}
               </p>
             )}
             {profile.bio && (
