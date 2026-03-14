@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -10,7 +10,46 @@ export default function CardPage({ id, claimed, profile, links }) {  const [step
   const [form, setForm] = useState({ email: '', password: '', name: '', title: '', bio: '' })
 
   const mono = "'Courier New', monospace"
-  
+
+useEffect(() => {
+    const handleGoogleReturn = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session && !claimed) {
+        // User just logged in with Google, claim the card
+        const { data: existingCard } = await supabase
+          .from('cards')
+          .select('*')
+          .eq('id', id)
+          .single()
+
+        if (existingCard && !existingCard.owner_id) {
+          // Check if profile exists
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single()
+
+          if (!profile) {
+            await supabase.from('profiles').insert({
+              id: session.user.id,
+              name: session.user.user_metadata?.full_name || '',
+            })
+          }
+
+          await supabase.from('cards').update({
+            owner_id: session.user.id,
+            status: 'active'
+          }).eq('id', id)
+
+          // Reload the page to show the profile
+          window.location.reload()
+        }
+      }
+    }
+    handleGoogleReturn()
+  }, [])
+                                                                   
 const handleActivate = async () => {
     const { data, error } = await supabase.auth.signUp({
       email: form.email,
