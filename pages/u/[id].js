@@ -1,11 +1,45 @@
 import { useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
 
 export default function CardPage({ id, claimed }) {
   const [step, setStep] = useState(0)
   const [form, setForm] = useState({ email: '', password: '', name: '', title: '', bio: '' })
 
   const mono = "'Courier New', monospace"
+  
+const handleActivate = async () => {
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+    })
 
+    if (error) {
+      alert(error.message)
+      return
+    }
+
+    const user = data.user
+
+    await supabase.from('profiles').insert({
+      id: user.id,
+      name: form.name,
+      title: form.title,
+      bio: form.bio,
+    })
+
+    await supabase.from('cards').update({
+      owner_id: user.id,
+      status: 'active'
+    }).eq('id', id)
+
+    setStep(3)
+  }
+  
   if (claimed) {
     return (
       <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: mono, color: '#f0eef8', padding: 24 }}>
@@ -68,7 +102,7 @@ export default function CardPage({ id, claimed }) {
                 style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', color: '#f0eef8', fontSize: 14, boxSizing: 'border-box', fontFamily: mono }} />
             </div>
           ))}
-          <button onClick={() => setStep(3)} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: 8, fontFamily: mono }}>
+          <button onClick={() => handleActivate()} style={{ background: 'linear-gradient(135deg,#a78bfa,#c084fc)', color: '#fff', border: 'none', borderRadius: 50, padding: '16px', fontSize: 15, fontWeight: 700, cursor: 'pointer', width: '100%', marginTop: 8, fontFamily: mono }}>
             Finish Setup →
           </button>
           <button onClick={() => setStep(2)} style={{ background: 'none', border: 'none', color: 'rgba(240,238,248,0.3)', cursor: 'pointer', width: '100%', marginTop: 12, fontSize: 13, fontFamily: mono }}>← Back</button>
