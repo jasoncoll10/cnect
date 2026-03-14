@@ -32,14 +32,14 @@ export default function Home() {
       {/* HERO */}
       <div style={{ padding: '100px 48px 80px', textAlign: 'center', maxWidth: 800, margin: '0 auto', animation: 'fadeUp 0.8s both' }}>
         <p style={{ fontSize: 11, letterSpacing: '0.3em', textTransform: 'uppercase', color: gold, marginBottom: 24 }}>
-          ✦ NFC Digital Business Cards ✦
+          ✦ The Smart Business Card ✦
         </p>
         <h1 style={{ fontSize: 'clamp(48px, 8vw, 96px)', fontWeight: 300, lineHeight: 0.95, letterSpacing: '-0.02em', marginBottom: 32 }}>
           Share everything.<br />
           <span style={{ color: 'transparent', WebkitTextStroke: `1px rgba(212,175,114,0.7)` }}>One tap.</span>
         </h1>
         <p style={{ fontSize: 16, color: 'rgba(240,238,248,0.5)', lineHeight: 1.75, maxWidth: 480, margin: '0 auto 48px' }}>
-          One premium NFC card. Tap it to share all your links — Instagram, website, portfolio, anything. Update your profile anytime, no new card needed.
+          One card. Tap it to share all your links — Instagram, website, portfolio, anything. Update your profile anytime, no new card needed.
         </p>
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
           <a href="#pricing" style={{ background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', borderRadius: 50, padding: '16px 40px', fontSize: 14, fontWeight: 700, letterSpacing: '0.05em', boxShadow: `0 0 40px ${goldGlow}`, fontFamily: mono }}>
@@ -86,7 +86,7 @@ export default function Home() {
         <h2 style={{ fontSize: 'clamp(32px,5vw,56px)', fontWeight: 300, marginBottom: 64, lineHeight: 1.1 }}>Simple as a tap.</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 2 }}>
           {[
-            { num: '01', title: 'Order your card', desc: 'Premium NFC card — black, sticker, keychain and more. Ships in 3-5 days.' },
+            { num: '01', title: 'Order your card', desc: 'Premium card — black, sticker, keychain and more. Ships in 3-5 days.' },
             { num: '02', title: 'Set up your profile', desc: 'Add your links, bio, and photo in minutes at cnect.me/dashboard.' },
             { num: '03', title: 'Tap to share', desc: 'Hold your card near any phone. Your profile opens instantly. No app needed.' },
             { num: '04', title: 'Update anytime', desc: 'Changed jobs? New Instagram? Update online — your card never changes.' },
@@ -106,7 +106,7 @@ export default function Home() {
         <h2 style={{ fontSize: 'clamp(32px,5vw,56px)', fontWeight: 300, marginBottom: 64, lineHeight: 1.1 }}>Pick your style.</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 16 }}>
           {[
-            { icon: '🖤', name: 'Black Card', desc: 'Matte black premium NFC card. Clean and professional.', soon: false },
+            { icon: '🖤', name: 'Black Card', desc: 'Matte black premium card. Clean and professional.', soon: false },
             { icon: '✨', name: 'Holographic Sticker', desc: 'Stick it anywhere — laptop, phone case, notebook.', soon: true },
             { icon: '🏷️', name: 'NFC Keychain', desc: 'Always on you. Never lose a connection.', soon: true },
             { icon: '🎨', name: 'Custom Printed', desc: 'Your photo or brand printed on the card.', soon: true },
@@ -128,8 +128,8 @@ export default function Home() {
         <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 15, marginBottom: 56 }}>One card. Yours forever.</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20, maxWidth: 620, margin: '0 auto' }}>
           {[
-            { tier: 'Essential', price: '19', note: 'one-time', features: ['1 NFC Card', 'Unlimited links', 'Custom profile', 'QR code included'], featured: false },
-            { tier: 'Pro', price: '29', note: 'one-time + $3/mo', features: ['1 Premium NFC Card', 'Unlimited links', 'Custom profile', 'Tap analytics', 'Priority support'], featured: true },
+            { tier: 'Essential', price: '19', note: 'one-time', features: ['1 Smart Card', 'Unlimited links', 'Custom profile', 'QR code included'], featured: false },
+            { tier: 'Pro', price: '29', note: 'one-time + $3/mo', features: ['1 Premium Smart Card', 'Unlimited links', 'Custom profile', 'Tap analytics', 'Priority support'], featured: true },
           ].map((p, i) => (
             <div key={i} style={{ background: p.featured ? goldFaint : 'rgba(255,255,255,0.02)', border: `1px solid ${p.featured ? `rgba(212,175,114,0.35)` : 'rgba(255,255,255,0.07)'}`, borderRadius: 24, padding: '40px 32px', textAlign: 'left', position: 'relative' }}>
               {p.featured && <span style={{ position: 'absolute', top: 20, right: 20, background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '4px 12px', borderRadius: 50 }}>Popular</span>}
