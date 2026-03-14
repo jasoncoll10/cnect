@@ -78,11 +78,13 @@ const loadData = async (userId) => {
   }
 
   const saveProfile = async () => {
-    await supabase.from('profiles').update({
+    const { error } = await supabase.from('profiles').update({
+      username: profile.username?.toLowerCase().replace(/[^a-z0-9]/g, ''),
       name: profile.name,
       title: profile.title,
       bio: profile.bio,
     }).eq('id', user.id)
+    if (error) { alert(error.message); return }
     alert('Profile saved! 🖤')
   }
 
@@ -238,6 +240,7 @@ if (!user) {
     </div>
 
     {[
+      { label: 'Username', key: 'username', placeholder: 'e.g. jasoncoll' },
       { label: 'Display Name', key: 'name', placeholder: 'Your name' },
       { label: 'Title / Role', key: 'title', placeholder: 'e.g. Designer, Founder' },
       { label: 'Bio', key: 'bio', placeholder: 'A short line about you...' },
@@ -250,9 +253,7 @@ if (!user) {
     <button onClick={saveProfile} style={{ background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', border: 'none', borderRadius: 50, padding: '14px', fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: mono, marginTop: 8 }}>
       Save Profile 🖤
     </button>
-    <a href={`/u/card001`} target="_blank" rel="noopener noreferrer" style={{ textAlign: 'center', fontSize: 13, color: gold, marginTop: 4 }}>
-      View my profile →
-    </a>
+    <a href={`/u/${profile.username || 'card001'}`} ...>View my profile →</a>
   </div>
 )}
       </div>
