@@ -11,12 +11,18 @@ export default function CardPage({ id, claimed, profile, links }) {  const [step
 
   const mono = "'Courier New', monospace"
 
+const [tapCount, setTapCount] = useState(profile?.taps || 0)
+
 useEffect(() => {
     const countTap = async () => {
       if (claimed && profile) {
-        const { error } = await supabase.rpc('increment_taps', { user_id: profile.id })
-        if (error) console.log('TAP ERROR:', error)
-        else console.log('TAP COUNTED!')
+        await supabase.rpc('increment_taps', { user_id: profile.id })
+        const { data } = await supabase
+          .from('profiles')
+          .select('taps')
+          .eq('id', profile.id)
+          .single()
+        if (data) setTapCount(data.taps)
       }
     }
     countTap()
@@ -162,9 +168,9 @@ if (claimed && profile) {
             <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 6, letterSpacing: '-0.3px', background: 'linear-gradient(135deg,#f0eef8,#d4af72)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               {profile.name}
             </h1>
-            {profile.taps > 0 && (
+            {tapCount > 0 && (
               <p style={{ fontSize: 11, color: 'rgba(212,175,114,0.4)', letterSpacing: '0.12em', marginTop: 4 }}>
-                ✦ {profile.taps} {profile.taps === 1 ? 'tap' : 'taps'}
+                ✦ {tapCount} {tapCount === 1 ? 'tap' : 'taps'}
               </p>
             )}
             {profile.bio && (
