@@ -282,14 +282,41 @@ export async function getServerSideProps({ params }) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   )
 
+  const id = params.id
+
+  // First try to find by username
+  const { data: profileByUsername } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('username', id)
+    .single()
+
+  if (profileByUsername) {
+    // Found by username — load their links
+    const { data: links } = await supabase
+      .from('links')
+      .select('*')
+      .eq('user_id', profileByUsername.id)
+
+    return {
+      props: {
+        id,
+        claimed: true,
+        profile: profileByUsername,
+        links: links || []
+      }
+    }
+  }
+
+  // Otherwise try by card ID
   const { data: card } = await supabase
     .from('cards')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   if (!card || !card.owner_id) {
-    return { props: { id: params.id, claimed: false, profile: null, links: [] } }
+    return { props: { id, claimed: false, profile: null, links: [] } }
   }
 
   const { data: profile } = await supabase
@@ -303,12 +330,12 @@ export async function getServerSideProps({ params }) {
     .select('*')
     .eq('user_id', card.owner_id)
 
-  return { 
-    props: { 
-      id: params.id, 
+  return {
+    props: {
+      id,
       claimed: true,
       profile: profile || null,
       links: links || []
-    } 
+    }
   }
 }
