@@ -40,29 +40,107 @@ const handleActivate = async () => {
   }
   
 if (claimed && profile) {
+    const initials = profile.name ? profile.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase() : '??'
+    
+    const getIcon = (label, url) => {
+      const l = label.toLowerCase()
+      const u = (url || '').toLowerCase()
+      if (l.includes('instagram') || u.includes('instagram')) return { icon: '📸', color: '#E1306C' }
+      if (l.includes('tiktok') || u.includes('tiktok')) return { icon: '🎵', color: '#010101' }
+      if (l.includes('twitter') || l.includes('x.com') || u.includes('twitter')) return { icon: '𝕏', color: '#1DA1F2' }
+      if (l.includes('youtube') || u.includes('youtube')) return { icon: '▶', color: '#FF0000' }
+      if (l.includes('spotify') || u.includes('spotify')) return { icon: '♫', color: '#1DB954' }
+      if (l.includes('linkedin') || u.includes('linkedin')) return { icon: 'in', color: '#0077B5' }
+      if (l.includes('facebook') || u.includes('facebook')) return { icon: 'f', color: '#1877F2' }
+      if (l.includes('snapchat') || u.includes('snapchat')) return { icon: '👻', color: '#FFFC00' }
+      if (l.includes('pinterest') || u.includes('pinterest')) return { icon: 'P', color: '#E60023' }
+      if (l.includes('email') || l.includes('mail') || u.includes('mailto')) return { icon: '✉', color: '#d4af72' }
+      if (l.includes('website') || l.includes('portfolio') || l.includes('site')) return { icon: '🌐', color: '#d4af72' }
+      if (l.includes('shop') || l.includes('store') || u.includes('etsy') || u.includes('shopify')) return { icon: '🛒', color: '#d4af72' }
+      if (l.includes('phone') || l.includes('call') || l.includes('whatsapp')) return { icon: '📞', color: '#25D366' }
+      return { icon: '🔗', color: '#d4af72' }
+    }
+
     return (
-      <div style={{ minHeight: '100vh', background: '#070709', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '60px 20px 40px', fontFamily: mono, color: '#f0eef8' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 36 }}>
-          <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'linear-gradient(135deg,#a78bfa,#c084fc)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 700, color: '#fff', marginBottom: 16, boxShadow: '0 0 0 3px rgba(167,139,250,0.3), 0 8px 32px rgba(167,139,250,0.3)' }}>
-            {profile.name ? profile.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase() : '??'}
+      <div style={{ minHeight: '100vh', background: '#070709', fontFamily: mono, color: '#f0eef8', overflow: 'hidden' }}>
+        <style>{`
+          @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+          @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+          @keyframes shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+          @keyframes glow { 0%,100%{box-shadow:0 0 20px rgba(212,175,114,0.3),0 0 0 3px rgba(212,175,114,0.15)} 50%{box-shadow:0 0 40px rgba(212,175,114,0.5),0 0 0 3px rgba(212,175,114,0.3)} }
+          .link-btn { transition: all 0.2s ease !important; }
+          .link-btn:hover { transform: translateY(-3px) scale(1.05) !important; }
+          .social-btn { transition: all 0.2s ease !important; }
+          .social-btn:hover { transform: translateY(-4px) scale(1.1) !important; }
+        `}</style>
+
+        {/* Background effects */}
+        <div style={{ position: 'fixed', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+          <div style={{ position: 'absolute', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle,rgba(212,175,114,0.06),transparent 70%)', top: -200, left: '50%', transform: 'translateX(-50%)' }} />
+          <div style={{ position: 'absolute', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle,rgba(212,175,114,0.04),transparent 70%)', bottom: -100, right: -100 }} />
+        </div>
+
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '60px 24px 80px', maxWidth: 480, margin: '0 auto' }}>
+
+          {/* Avatar */}
+          <div style={{ marginBottom: 20, animation: 'fadeUp 0.6s both' }}>
+            {profile.avatar ? (
+              <img src={profile.avatar} alt={profile.name} style={{ width: 96, height: 96, borderRadius: '50%', objectFit: 'cover', animation: 'glow 3s ease-in-out infinite', border: '2px solid rgba(212,175,114,0.3)' }} />
+            ) : (
+              <div style={{ width: 96, height: 96, borderRadius: '50%', background: 'linear-gradient(135deg,#1a1a0f,#2a2510)', border: '2px solid rgba(212,175,114,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, fontWeight: 700, color: '#d4af72', animation: 'glow 3s ease-in-out infinite', boxShadow: '0 0 30px rgba(212,175,114,0.2)' }}>
+                {initials}
+              </div>
+            )}
           </div>
-          <h1 style={{ fontFamily: mono, fontSize: 26, fontWeight: 600, margin: 0 }}>{profile.name}</h1>
-          {profile.title && <p style={{ fontSize: 11, color: '#a78bfa', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', margin: '6px 0 0' }}>{profile.title}</p>}
-          {profile.bio && <p style={{ fontSize: 14, color: 'rgba(240,238,248,0.5)', margin: '10px 0 0', maxWidth: 280, textAlign: 'center', lineHeight: 1.65 }}>{profile.bio}</p>}
-        </div>
-        <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {links.filter(l => l.active).map(link => (
-            <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '16px 20px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, textDecoration: 'none', color: '#f0eef8', fontFamily: mono }}>
-              <span style={{ fontSize: 22 }}>{link.icon}</span>
-              <span style={{ fontSize: 15, fontWeight: 600, flex: 1 }}>{link.label}</span>
-              <span style={{ fontSize: 12, color: 'rgba(240,238,248,0.5)' }}>→</span>
+
+          {/* Name & Title */}
+          <div style={{ textAlign: 'center', marginBottom: 32, animation: 'fadeUp 0.6s 0.1s both' }}>
+            <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 6, letterSpacing: '-0.3px', background: 'linear-gradient(135deg,#f0eef8,#d4af72)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              {profile.name}
+            </h1>
+            {profile.title && (
+              <p style={{ fontSize: 11, color: '#d4af72', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>
+                {profile.title}
+              </p>
+            )}
+            {profile.bio && (
+              <p style={{ fontSize: 14, color: 'rgba(240,238,248,0.55)', lineHeight: 1.7, maxWidth: 300, margin: '0 auto' }}>
+                {profile.bio}
+              </p>
+            )}
+          </div>
+
+          {/* Links */}
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 10, animation: 'fadeUp 0.6s 0.2s both' }}>
+            {links.filter(l => l.active).map((link, i) => {
+              const { icon, color } = getIcon(link.label, link.url)
+              return (
+                <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="link-btn"
+                  style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '16px 20px', background: 'rgba(212,175,114,0.04)', border: '1px solid rgba(212,175,114,0.12)', borderRadius: 16, textDecoration: 'none', color: '#f0eef8', backdropFilter: 'blur(10px)', animationDelay: `${i * 0.05}s` }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: `${color}22`, border: `1px solid ${color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0, color: color }}>
+                    {icon}
+                  </div>
+                  <span style={{ fontSize: 14, fontWeight: 600, flex: 1 }}>{link.label}</span>
+                  <span style={{ fontSize: 16, color: 'rgba(212,175,114,0.4)' }}>→</span>
+                </a>
+              )
+            })}
+
+            {links.filter(l => l.active).length === 0 && (
+              <p style={{ textAlign: 'center', color: 'rgba(240,238,248,0.25)', fontSize: 13, padding: '32px 0' }}>No links added yet.</p>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div style={{ marginTop: 52, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, animation: 'fadeUp 0.6s 0.4s both' }}>
+            <a href="/signup" style={{ background: 'linear-gradient(135deg,rgba(212,175,114,0.15),rgba(212,175,114,0.05))', border: '1px solid rgba(212,175,114,0.2)', color: '#d4af72', borderRadius: 50, padding: '10px 28px', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textDecoration: 'none', textTransform: 'uppercase' }}>
+              ✦ Get your Cnect card
             </a>
-          ))}
-          {links.length === 0 && (
-            <p style={{ textAlign: 'center', color: 'rgba(240,238,248,0.3)', fontSize: 14, marginTop: 20 }}>No links added yet.</p>
-          )}
+            <p style={{ fontSize: 10, color: 'rgba(240,238,248,0.2)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Powered by <strong style={{ color: 'rgba(212,175,114,0.4)' }}>Cnect</strong>
+            </p>
+          </div>
         </div>
-        <p style={{ marginTop: 48, fontSize: 11, color: 'rgba(240,238,248,0.3)', letterSpacing: '0.08em' }}>Powered by <strong style={{ color: '#a78bfa' }}>Cnect</strong></p>
       </div>
     )
   }
