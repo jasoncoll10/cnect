@@ -84,20 +84,33 @@ if (claimed && profile) {
     const getIcon = (label, url) => {
       const l = label.toLowerCase()
       const u = (url || '').toLowerCase()
-      if (l.includes('instagram') || u.includes('instagram')) return { icon: '📸', color: '#E1306C' }
-      if (l.includes('tiktok') || u.includes('tiktok')) return { icon: '🎵', color: '#010101' }
-      if (l.includes('twitter') || l.includes('x.com') || u.includes('twitter')) return { icon: '𝕏', color: '#1DA1F2' }
-      if (l.includes('youtube') || u.includes('youtube')) return { icon: '▶', color: '#FF0000' }
-      if (l.includes('spotify') || u.includes('spotify')) return { icon: '♫', color: '#1DB954' }
-      if (l.includes('linkedin') || u.includes('linkedin')) return { icon: 'in', color: '#0077B5' }
-      if (l.includes('facebook') || u.includes('facebook')) return { icon: 'f', color: '#1877F2' }
-      if (l.includes('snapchat') || u.includes('snapchat')) return { icon: '👻', color: '#FFFC00' }
-      if (l.includes('pinterest') || u.includes('pinterest')) return { icon: 'P', color: '#E60023' }
-      if (l.includes('email') || l.includes('mail') || u.includes('mailto')) return { icon: '✉', color: '#d4af72' }
-      if (l.includes('website') || l.includes('portfolio') || l.includes('site')) return { icon: '🌐', color: '#d4af72' }
-      if (l.includes('shop') || l.includes('store') || u.includes('etsy') || u.includes('shopify')) return { icon: '🛒', color: '#d4af72' }
-      if (l.includes('phone') || l.includes('call') || l.includes('whatsapp')) return { icon: '📞', color: '#25D366' }
-      return { icon: '🔗', color: '#d4af72' }
+      
+      if (l.includes('instagram') || u.includes('instagram')) return { bg: '#E1306C', logo: 'https://cdn.simpleicons.org/instagram/white' }
+      if (l.includes('tiktok') || u.includes('tiktok')) return { bg: '#010101', logo: 'https://cdn.simpleicons.org/tiktok/white' }
+      if (l.includes('twitter') || l.includes('x.com') || u.includes('twitter') || u.includes('x.com')) return { bg: '#000000', logo: 'https://cdn.simpleicons.org/x/white' }
+      if (l.includes('youtube') || u.includes('youtube')) return { bg: '#FF0000', logo: 'https://cdn.simpleicons.org/youtube/white' }
+      if (l.includes('spotify') || u.includes('spotify')) return { bg: '#1DB954', logo: 'https://cdn.simpleicons.org/spotify/white' }
+      if (l.includes('linkedin') || u.includes('linkedin')) return { bg: '#0077B5', logo: 'https://cdn.simpleicons.org/linkedin/white' }
+      if (l.includes('facebook') || u.includes('facebook')) return { bg: '#1877F2', logo: 'https://cdn.simpleicons.org/facebook/white' }
+      if (l.includes('snapchat') || u.includes('snapchat')) return { bg: '#FFFC00', logo: 'https://cdn.simpleicons.org/snapchat/black' }
+      if (l.includes('pinterest') || u.includes('pinterest')) return { bg: '#E60023', logo: 'https://cdn.simpleicons.org/pinterest/white' }
+      if (l.includes('twitch') || u.includes('twitch')) return { bg: '#9146FF', logo: 'https://cdn.simpleicons.org/twitch/white' }
+      if (l.includes('discord') || u.includes('discord')) return { bg: '#5865F2', logo: 'https://cdn.simpleicons.org/discord/white' }
+      if (l.includes('whatsapp') || u.includes('whatsapp')) return { bg: '#25D366', logo: 'https://cdn.simpleicons.org/whatsapp/white' }
+      if (l.includes('telegram') || u.includes('telegram')) return { bg: '#26A5E4', logo: 'https://cdn.simpleicons.org/telegram/white' }
+      if (l.includes('github') || u.includes('github')) return { bg: '#181717', logo: 'https://cdn.simpleicons.org/github/white' }
+      if (l.includes('behance') || u.includes('behance')) return { bg: '#1769FF', logo: 'https://cdn.simpleicons.org/behance/white' }
+      if (l.includes('dribbble') || u.includes('dribbble')) return { bg: '#EA4C89', logo: 'https://cdn.simpleicons.org/dribbble/white' }
+      if (l.includes('etsy') || u.includes('etsy')) return { bg: '#F16521', logo: 'https://cdn.simpleicons.org/etsy/white' }
+      if (l.includes('shopify') || u.includes('shopify')) return { bg: '#96BF48', logo: 'https://cdn.simpleicons.org/shopify/white' }
+      if (l.includes('amazon') || u.includes('amazon')) return { bg: '#FF9900', logo: 'https://cdn.simpleicons.org/amazon/white' }
+      if (l.includes('patreon') || u.includes('patreon')) return { bg: '#FF424D', logo: 'https://cdn.simpleicons.org/patreon/white' }
+      if (l.includes('venmo') || u.includes('venmo')) return { bg: '#3D95CE', logo: 'https://cdn.simpleicons.org/venmo/white' }
+      if (l.includes('cashapp') || u.includes('cashapp') || l.includes('cash app')) return { bg: '#00C244', logo: 'https://cdn.simpleicons.org/cashapp/white' }
+      if (l.includes('email') || l.includes('mail') || u.includes('mailto')) return { bg: '#d4af72', logo: null, icon: '✉️' }
+      if (l.includes('website') || l.includes('portfolio') || l.includes('site')) return { bg: '#333', logo: null, icon: '🌐' }
+      if (l.includes('phone') || l.includes('call')) return { bg: '#333', logo: null, icon: '📞' }
+      return { bg: '#333', logo: null, icon: '🔗' }
     }
 
     return (
@@ -152,12 +165,16 @@ if (claimed && profile) {
           {/* Links */}
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 10, animation: 'fadeUp 0.6s 0.2s both' }}>
             {links.filter(l => l.active).map((link, i) => {
-              const { icon, color } = getIcon(link.label, link.url)
+              const result = getIcon(link.label, link.url)
               return (
                 <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="link-btn"
                   style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '16px 20px', background: 'rgba(212,175,114,0.04)', border: '1px solid rgba(212,175,114,0.12)', borderRadius: 16, textDecoration: 'none', color: '#f0eef8', backdropFilter: 'blur(10px)', animationDelay: `${i * 0.05}s` }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: `${color}22`, border: `1px solid ${color}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0, color: color }}>
-                    {icon}
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: result.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                    {result.logo ? (
+                      <img src={result.logo} alt={link.label} style={{ width: 20, height: 20, objectFit: 'contain' }} />
+                    ) : (
+                      <span style={{ fontSize: 16 }}>{result.icon}</span>
+                    )}
                   </div>
                   <span style={{ fontSize: 14, fontWeight: 600, flex: 1 }}>{link.label}</span>
                   <span style={{ fontSize: 16, color: 'rgba(212,175,114,0.4)' }}>→</span>
