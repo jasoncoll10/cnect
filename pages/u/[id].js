@@ -124,9 +124,9 @@ if (claimed && profile) {
           {/* Avatar */}
           <div style={{ marginBottom: 20, animation: 'fadeUp 0.6s both' }}>
             {profile.avatar ? (
-              <img src={profile.avatar} alt={profile.name} style={{ width: 96, height: 96, borderRadius: '50%', objectFit: 'cover', animation: 'glow 3s ease-in-out infinite', border: '2px solid rgba(212,175,114,0.3)' }} />
+              <img src={profile.avatar} alt={profile.name} style={{ width: 140, height: 140, borderRadius: '50%', objectFit: 'cover', animation: 'glow 3s ease-in-out infinite', border: '3px solid rgba(212,175,114,0.3)' }} />
             ) : (
-              <div style={{ width: 96, height: 96, borderRadius: '50%', background: 'linear-gradient(135deg,#1a1a0f,#2a2510)', border: '2px solid rgba(212,175,114,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, fontWeight: 700, color: '#d4af72', animation: 'glow 3s ease-in-out infinite', boxShadow: '0 0 30px rgba(212,175,114,0.2)' }}>
+              <div style={{ width: 140, height: 140, borderRadius: '50%', background: 'linear-gradient(135deg,#1a1a0f,#2a2510)', border: '3px solid rgba(212,175,114,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, fontWeight: 700, color: '#d4af72', animation: 'glow 3s ease-in-out infinite', boxShadow: '0 0 30px rgba(212,175,114,0.2)' }}>
                 {initials}
               </div>
             )}
