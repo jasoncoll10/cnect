@@ -83,9 +83,12 @@ const loadData = async (userId) => {
       name: profile.name,
       title: profile.title,
       bio: profile.bio,
+      phone: profile.phone,
+      contact_email: profile.contact_email,
     }).eq('id', user.id)
     if (error) { alert(error.message); return }
     alert('Profile saved! 🖤')
+  }
   }
 
   const uploadAvatar = async (e) => {
@@ -244,6 +247,8 @@ if (!user) {
       { label: 'Display Name', key: 'name', placeholder: 'Your name' },
       { label: 'Title / Role', key: 'title', placeholder: 'e.g. Designer, Founder' },
       { label: 'Bio', key: 'bio', placeholder: 'A short line about you...' },
+      { label: 'Phone Number', key: 'phone', placeholder: '+1 (555) 000-0000' },
+      { label: 'Contact Email', key: 'contact_email', placeholder: 'your@email.com' },
     ].map(f => (
       <div key={f.key}>
         <label style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(240,238,248,0.45)', display: 'block', marginBottom: 8, fontFamily: mono }}>{f.label}</label>
