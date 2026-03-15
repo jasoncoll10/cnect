@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
@@ -6,7 +6,16 @@ const mono = "'Courier New', monospace"
 const gold = '#d4af72'
 
 export default function Checkout() {
-  const [selected, setSelected] = useState('pro')
+const [selected, setSelected] = useState('pro')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const plan = params.get('plan')
+      if (plan === 'essential' || plan === 'pro') setSelected(plan)
+    }
+  }, [])
+    
   const [loading, setLoading] = useState(false)
 
   const plans = [
