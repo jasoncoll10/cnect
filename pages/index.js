@@ -143,7 +143,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <a href='/checkout?plan=essential' style={{ display: 'block', textAlign: 'center', background: 'transparent', color: 'rgba(240,238,248,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 50, padding: '14px', fontSize: 14, fontWeight: 700, fontFamily: mono }}>
+              <a href='/checkout' style={{ display: 'block', textAlign: 'center', background: 'transparent', color: 'rgba(240,238,248,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 50, padding: '14px', fontSize: 14, fontWeight: 700, fontFamily: mono }}>
                 Order Now →
               </a>
             </div>
