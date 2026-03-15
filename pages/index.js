@@ -146,9 +146,6 @@ export default function Home() {
               <a href='/checkout?plan=essential' style={{ display: 'block', textAlign: 'center', background: 'transparent', color: 'rgba(240,238,248,0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 50, padding: '14px', fontSize: 14, fontWeight: 700, fontFamily: mono }}>
                 Order Now →
               </a>
-              <a href='/checkout?plan=pro' style={{ display: 'block', textAlign: 'center', background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', border: 'none', borderRadius: 50, padding: '14px', fontSize: 14, fontWeight: 700, fontFamily: mono }}>
-                Order Now →
-              </a>
             </div>
           ))}
         </div>
