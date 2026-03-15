@@ -89,7 +89,7 @@ export default function Checkout() {
         boxShadow: `0 0 40px rgba(212,175,114,0.3)`,
         letterSpacing: '0.04em',
       }}>
-        {loading ? 'Redirecting to checkout...' : `Order ${selected === 'pro' ? 'Pro' : 'Essential'} — $${selected === 'pro' ? 29 : 19} →`}
+        {loading ? 'Redirecting to checkout...' : `Order ${selected === 'pro' ? 'Pro' : 'Essential'} — $${selected === 'pro' ? 12.99 : 9.99} →`}
       </button>
 
       <p style={{ marginTop: 16, fontSize: 11, color: 'rgba(240,238,248,0.25)', letterSpacing: '0.06em' }}>
