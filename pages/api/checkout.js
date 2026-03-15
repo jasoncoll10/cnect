@@ -10,12 +10,12 @@ export default async function handler(req, res) {
   const prices = {
     essential: {
       name: 'Cnect Essential Card',
-      amount: 1900, // $19.00
+      amount: 999, // $9.99
       description: '1 Smart NFC Card + Unlimited links + Custom profile',
     },
     pro: {
       name: 'Cnect Pro Card',
-      amount: 2900, // $29.00
+      amount: 1299, // $12.99
       description: '1 Premium Smart Card + Unlimited links + Tap analytics + Priority support',
     }
   }
