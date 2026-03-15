@@ -128,8 +128,8 @@ export default function Home() {
         <p style={{ color: 'rgba(240,238,248,0.5)', fontSize: 15, marginBottom: 56 }}>One card. Yours forever.</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20, maxWidth: 620, margin: '0 auto' }}>
           {[
-            { tier: 'Essential', price: '19', note: 'one-time', features: ['1 Smart Card', 'Unlimited links', 'Custom profile', 'QR code included'], featured: false },
-            { tier: 'Pro', price: '29', note: 'one-time + $3/mo', features: ['1 Premium Smart Card', 'Unlimited links', 'Custom profile', 'Tap analytics', 'Priority support'], featured: true },
+            { tier: 'Essential', price: '9.99', note: 'one-time', features: ['1 Smart Card', 'Unlimited links', 'Custom profile', 'QR code included'], featured: false },
+            { tier: 'Pro', price: '12.99', note: 'one-time + $3/mo', features: ['1 Premium Smart Card', 'Unlimited links', 'Custom profile', 'Tap analytics', 'Priority support'], featured: true },
           ].map((p, i) => (
             <div key={i} style={{ background: p.featured ? goldFaint : 'rgba(255,255,255,0.02)', border: `1px solid ${p.featured ? `rgba(212,175,114,0.35)` : 'rgba(255,255,255,0.07)'}`, borderRadius: 24, padding: '40px 32px', textAlign: 'left', position: 'relative' }}>
               {p.featured && <span style={{ position: 'absolute', top: 20, right: 20, background: `linear-gradient(135deg,${gold},#c9a55a)`, color: '#070709', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '4px 12px', borderRadius: 50 }}>Popular</span>}
