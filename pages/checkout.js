@@ -13,14 +13,14 @@ export default function Checkout() {
     {
       id: 'essential',
       name: 'Essential',
-      price: 19,
+      price: 9.99,
       note: 'one-time',
       features: ['1 Smart Card', 'Unlimited links', 'Custom profile', 'QR code included'],
     },
     {
       id: 'pro',
       name: 'Pro',
-      price: 29,
+      price: 12.99,
       note: 'one-time + $3/mo',
       features: ['1 Premium Smart Card', 'Unlimited links', 'Custom profile', 'Tap analytics', 'Priority support'],
       featured: true,
